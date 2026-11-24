@@ -1,6 +1,6 @@
-# ux-redesign
+# claude-artifact-redesign
 
-A Claude Code skill that redesigns an existing app's UI as an interactive Claude Artifact, then
+A Claude Code skill (`/ux-redesign`) that redesigns an existing app's UI as an interactive Claude Artifact, then
 has a fresh reviewer subagent audit it each round until the reviewer returns
 `READY FOR USER VIEW`.
 
@@ -16,13 +16,13 @@ Clone this repo into your personal skills folder.
 macOS or Linux:
 
 ```bash
-git clone https://github.com/tajbinkhan/ux-redesign ~/.claude/skills/ux-redesign
+git clone https://github.com/tajbinkhan/claude-artifact-redesign ~/.claude/skills/ux-redesign
 ```
 
 Windows (PowerShell):
 
 ```powershell
-git clone https://github.com/tajbinkhan/ux-redesign "$HOME\.claude\skills\ux-redesign"
+git clone https://github.com/tajbinkhan/claude-artifact-redesign "$HOME\.claude\skills\ux-redesign"
 ```
 
 To share it with one project only, clone it into `<project>/.claude/skills/ux-redesign` instead.
