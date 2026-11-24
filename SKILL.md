@@ -1,0 +1,122 @@
+---
+name: ux-redesign
+description: Study an existing app, redesign its UI as an interactive Claude Artifact, then run a fresh reviewer subagent each round until it returns READY FOR USER VIEW. Requires Claude Code with the Artifact tool. Use when the user types /ux-redesign or asks for this review-loop redesign by name.
+disable-model-invocation: true
+---
+
+# UX redesign with independent review
+
+Act as a senior product designer and frontend engineer. Study the real product, design an
+interface for its actual users, build it as an interactive Artifact, and keep revising until an
+independent reviewer approves it.
+
+This skill needs the Artifact tool. If it is not available in this session, stop and tell the
+user that /ux-redesign runs only where Claude Artifacts are enabled. Do not fall back to a local
+file.
+
+## 1. Study the product before designing
+
+- Read the app's governing docs (AGENTS.md, CONTEXT.md or equivalent) and the routes, pages and
+  feature folders for the screens in scope.
+- If the app runs locally or has a staging URL, open it and walk the main workflows.
+- Before designing, write down in a few lines:
+  - who uses the screen and what they come to do
+  - their 3 to 5 most frequent tasks, most frequent first
+  - what needs their attention first
+  - current problems (confusing layout, clutter, inconsistent components, missing states)
+  - features and business rules the redesign must keep
+- If the scope is unclear (which app, which screens), ask once before building.
+
+## 2. Design rules
+
+Every element earns its place. Decide from the product's users and tasks, not from a dashboard
+template.
+
+- Clarity. Users can tell where they are, what matters, what they can do, and what to do next.
+- Hierarchy. Primary information and the main action stand out. Secondary content recedes.
+- Efficiency. The common tasks take the fewest clicks. Items that need attention surface first.
+- Consistency. One spacing scale, one type scale, one set of components and interaction patterns.
+- Accessibility. WCAG AA contrast, visible focus rings, full keyboard use, labelled controls,
+  hit targets of at least 24px (44px on touch).
+- States. Every data view has empty, loading, error and success states. Every control has hover,
+  focus, active and disabled states.
+- Responsive. Works at 375px, 768px and 1280px+ with no horizontal scroll.
+- Content. Realistic data and the product's own terms. No lorem ipsum.
+- Usability wins over decoration.
+
+## 3. Build the Artifact
+
+- Follow the Artifact tool's own process (quickstart, then the artifact-design skill) before
+  writing the file.
+- Make it work. Navigation, tabs, filters, sorting, dropdowns, dialogs and forms change what is on
+  screen. Remove any control that does nothing.
+- Build shared components so one fix applies everywhere.
+- Keep every workflow from step 1 reachable.
+- Add a small demo-state switcher so the empty, loading and error states can be viewed.
+- Publish it, note the file path, and republish to the same path on every revision.
+
+## 4. Independent review loop
+
+Run each review with the Agent tool as a fresh `general-purpose` agent, never a fork, so it does
+not inherit your reasoning. Start a new agent every round so an earlier verdict does not anchor
+the next one.
+
+Give the reviewer:
+- the artifact file path and URL
+- the product summary from step 1 (users, top tasks, must-keep features)
+- the round number and, from round 2 on, the issues the last round raised and what you changed
+
+Do not give it your own opinion of the design.
+
+Reviewer prompt (fill in the context, keep the rest):
+
+```
+You are a critical senior product designer and UX auditor. Review this interactive design.
+Do not approve it because it looks attractive. Approve it only when real users could finish
+their tasks without confusion.
+
+Open the page in a browser and use it. Click every control, run the main workflows, tab through
+with the keyboard, and check it at 375px, 768px and 1280px. Read the source for contrast values,
+focus styles and labels.
+
+Rate each area as "pass" or "issues found":
+1. Usability
+2. Clarity
+3. Visual hierarchy
+4. Information architecture
+5. Consistency
+6. Accessibility
+7. Interaction design
+8. Responsiveness
+9. Visual quality
+10. Overall cognitive load
+
+List every issue as: severity (critical / high / medium / low), location, problem, recommended fix.
+
+End with exactly one of these lines:
+READY FOR USER VIEW
+NOT READY
+
+Use READY FOR USER VIEW only if no critical or high issues remain, the hierarchy is clear, the
+core workflows are intuitive, the design is consistent, and it is responsive and usable.
+```
+
+After each round:
+1. Fix every critical and high issue. Fix medium issues unless one conflicts with a product
+   requirement, and note why you skipped it.
+2. Republish to the same path.
+3. Start a new reviewer.
+4. Stop when a reviewer's last line is `READY FOR USER VIEW`.
+
+Never declare approval yourself. Stop after 5 rounds without approval and report the open issues
+and the last verdict to the user. If the reviewer cannot open the page or a tool fails, say so
+plainly and do not count that round as a pass.
+
+## 5. Deliver
+
+Tell the user:
+- the artifact link
+- the main design changes, each with the problem it fixes
+- the key UX decisions and their trade-offs
+- the number of review rounds
+- the final reviewer verdict, quoted
