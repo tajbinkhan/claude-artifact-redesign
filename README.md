@@ -1,6 +1,6 @@
 # claude-artifact-redesign
 
-A Claude Code skill (`/ux-redesign`) that redesigns an existing app's UI as an interactive Claude Artifact, then
+A Claude Code skill (`/claude-artifact-redesign`) that redesigns an existing app's UI as an interactive Claude Artifact, then
 has a fresh reviewer subagent audit it each round until the reviewer returns
 `READY FOR USER VIEW`.
 
@@ -16,25 +16,25 @@ Clone this repo into your personal skills folder.
 macOS or Linux:
 
 ```bash
-git clone https://github.com/tajbinkhan/claude-artifact-redesign ~/.claude/skills/ux-redesign
+git clone https://github.com/tajbinkhan/claude-artifact-redesign ~/.claude/skills/claude-artifact-redesign
 ```
 
 Windows (PowerShell):
 
 ```powershell
-git clone https://github.com/tajbinkhan/claude-artifact-redesign "$HOME\.claude\skills\ux-redesign"
+git clone https://github.com/tajbinkhan/claude-artifact-redesign "$HOME\.claude\skills\claude-artifact-redesign"
 ```
 
-To share it with one project only, clone it into `<project>/.claude/skills/ux-redesign` instead.
+To share it with one project only, clone it into `<project>/.claude/skills/claude-artifact-redesign` instead.
 Start a new Claude Code session afterwards so the skill gets picked up.
 
 ## Use
 
 ```
-/ux-redesign <app or screens to redesign>
+/claude-artifact-redesign <app or screens to redesign>
 ```
 
-Example: `/ux-redesign the customer inbox and ticket detail pages`
+Example: `/claude-artifact-redesign the customer inbox and ticket detail pages`
 
 The skill sets `disable-model-invocation: true`, so Claude runs it only when you type the command.
 Every round starts a new reviewer subagent, and a run can take up to 5 rounds. Delete that line

@@ -1,6 +1,6 @@
 ---
-name: ux-redesign
-description: Study an existing app, redesign its UI as an interactive Claude Artifact, then run a fresh reviewer subagent each round until it returns READY FOR USER VIEW. Requires Claude Code with the Artifact tool. Use when the user types /ux-redesign or asks for this review-loop redesign by name.
+name: claude-artifact-redesign
+description: Study an existing app, redesign its UI as an interactive Claude Artifact, then run a fresh reviewer subagent each round until it returns READY FOR USER VIEW. Requires Claude Code with the Artifact tool. Use when the user types /claude-artifact-redesign or asks for this review-loop redesign by name.
 disable-model-invocation: true
 ---
 
@@ -11,7 +11,7 @@ interface for its actual users, build it as an interactive Artifact, and keep re
 independent reviewer approves it.
 
 This skill needs the Artifact tool. If it is not available in this session, stop and tell the
-user that /ux-redesign runs only where Claude Artifacts are enabled. Do not fall back to a local
+user that /claude-artifact-redesign runs only where Claude Artifacts are enabled. Do not fall back to a local
 file.
 
 ## 1. Study the product before designing
