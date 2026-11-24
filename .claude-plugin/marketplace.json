@@ -1,0 +1,22 @@
+{
+  "name": "claude-artifact-redesign",
+  "owner": {
+    "name": "Tajbin Khan"
+  },
+  "metadata": {
+    "description": "Claude Code skill that redesigns an app's UI as an interactive Claude Artifact and loops a reviewer subagent until it approves.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "claude-artifact-redesign",
+      "description": "Redesign an app's UI as an interactive Claude Artifact, then run a fresh reviewer subagent each round until it returns READY FOR USER VIEW.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./"],
+      "repository": "https://github.com/tajbinkhan/claude-artifact-redesign",
+      "license": "MIT",
+      "keywords": ["ux", "ui", "design", "redesign", "artifact", "review", "skill"]
+    }
+  ]
+}

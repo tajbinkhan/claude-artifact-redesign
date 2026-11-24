@@ -11,6 +11,19 @@ has a fresh reviewer subagent audit it each round until the reviewer returns
 
 ## Install
 
+### As a plugin (recommended)
+
+Run these in Claude Code:
+
+```
+/plugin marketplace add tajbinkhan/claude-artifact-redesign
+/plugin install claude-artifact-redesign@claude-artifact-redesign
+```
+
+Updates arrive through `/plugin` like any other marketplace plugin.
+
+### As a personal skill
+
 Clone this repo into your personal skills folder.
 
 macOS or Linux:
@@ -35,6 +48,9 @@ Start a new Claude Code session afterwards so the skill gets picked up.
 ```
 
 Example: `/claude-artifact-redesign the customer inbox and ticket detail pages`
+
+Installed as a plugin, the command carries the plugin name as a prefix:
+`/claude-artifact-redesign:claude-artifact-redesign`.
 
 The skill sets `disable-model-invocation: true`, so Claude runs it only when you type the command.
 Every round starts a new reviewer subagent, and a run can take up to 5 rounds. Delete that line
