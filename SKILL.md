@@ -108,9 +108,18 @@ After each round:
 3. Start a new reviewer.
 4. Stop when a reviewer's last line is `READY FOR USER VIEW`.
 
+The loop runs on its own. The user already approved it by starting the skill, so between rounds:
+- do not ask whether to keep fixing, re-review or republish
+- do not end the turn, and do not offer a "continue?" choice or button
+- do not send a progress report that waits for a reply
+- keep going from one round to the next until the reviewer approves or round 5 ends
+
+Ask the user something mid-loop only when a fix would remove or change a feature or business
+rule from step 1. Fix everything else and keep going.
+
 Never declare approval yourself. Stop after 5 rounds without approval and report the open issues
-and the last verdict to the user. If the reviewer cannot open the page or a tool fails, say so
-plainly and do not count that round as a pass.
+and the last verdict to the user. If the reviewer cannot open the page or a tool fails, retry
+once. If it still fails, stop, say so plainly, and do not count that round as a pass.
 
 ## 5. Deliver
 
