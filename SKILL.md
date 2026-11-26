@@ -1,6 +1,7 @@
 ---
 name: claude-artifact-redesign
 description: Study an existing app, redesign its UI as an interactive Claude Artifact, then run a fresh reviewer subagent each round until it returns READY FOR USER VIEW. Requires Claude Code with the Artifact tool. Use when the user types /claude-artifact-redesign or asks for this review-loop redesign by name.
+argument-hint: <app or screens to redesign>
 disable-model-invocation: true
 ---
 
@@ -11,8 +12,15 @@ interface for its actual users, build it as an interactive Artifact, and keep re
 independent reviewer approves it.
 
 This skill needs the Artifact tool. If it is not available in this session, stop and tell the
-user that /claude-artifact-redesign runs only where Claude Artifacts are enabled. Do not fall back to a local
-file.
+user that /claude-artifact-redesign runs only where Claude Artifacts are enabled. Do not fall
+back to a local file.
+
+## Scope
+
+The user asked to redesign: $ARGUMENTS
+
+If that is empty or does not say which app and screens, ask once before doing anything else.
+Otherwise start step 1 without asking.
 
 ## 1. Study the product before designing
 
@@ -25,7 +33,6 @@ file.
   - what needs their attention first
   - current problems (confusing layout, clutter, inconsistent components, missing states)
   - features and business rules the redesign must keep
-- If the scope is unclear (which app, which screens), ask once before building.
 
 ## 2. Design rules
 
@@ -46,14 +53,16 @@ template.
 
 ## 3. Build the Artifact
 
-- Follow the Artifact tool's own process (quickstart, then the artifact-design skill) before
-  writing the file.
+- Run the Artifact tool's `quickstart` action first and follow what it returns before writing
+  the file.
+- Write the page as one local HTML file in the scratchpad directory, or in the working directory
+  when there is no scratchpad. Keep its absolute path, because the reviewer opens this file.
 - Make it work. Navigation, tabs, filters, sorting, dropdowns, dialogs and forms change what is on
   screen. Remove any control that does nothing.
 - Build shared components so one fix applies everywhere.
 - Keep every workflow from step 1 reachable.
 - Add a small demo-state switcher so the empty, loading and error states can be viewed.
-- Publish it, note the file path, and republish to the same path on every revision.
+- Publish it, and republish from the same path on every revision.
 
 ## 4. Independent review loop
 
@@ -62,11 +71,15 @@ not inherit your reasoning. Start a new agent every round so an earlier verdict 
 the next one.
 
 Give the reviewer:
-- the artifact file path and URL
+- the absolute path of the local HTML file, plus its `file:///` URL
+- the artifact URL, as a backup
 - the product summary from step 1 (users, top tasks, must-keep features)
-- the round number and, from round 2 on, the issues the last round raised and what you changed
+- the round number
+- from round 2 on, the previous reviewer's issue list exactly as it wrote it, and any medium
+  issues you skipped with your reason for each
 
-Do not give it your own opinion of the design.
+Do not tell the reviewer what you changed or what you think of the design. It checks the page
+itself.
 
 Reviewer prompt (fill in the context, keep the rest):
 
@@ -75,9 +88,16 @@ You are a critical senior product designer and UX auditor. Review this interacti
 Do not approve it because it looks attractive. Approve it only when real users could finish
 their tasks without confusion.
 
-Open the page in a browser and use it. Click every control, run the main workflows, tab through
-with the keyboard, and check it at 375px, 768px and 1280px. Read the source for contrast values,
-focus styles and labels.
+Open the local file URL in a browser. If it does not load, try the artifact URL. Then use the
+page. Click every control, run the main workflows, tab through with the keyboard, and check it at
+375px, 768px and 1280px. Read the source for contrast values, focus styles and labels.
+
+If no browser works, review the source only, start your report with "BROWSER CHECK NOT RUN",
+list the checks you could not run, and end with NOT READY.
+
+If a previous issue list is attached, mark each of those issues "fixed" or "not fixed" based on
+what you see on the page. Do not raise a skipped medium issue again unless the stated reason is
+wrong.
 
 Rate each area as "pass" or "issues found":
 1. Usability
@@ -97,14 +117,15 @@ End with exactly one of these lines:
 READY FOR USER VIEW
 NOT READY
 
-Use READY FOR USER VIEW only if no critical or high issues remain, the hierarchy is clear, the
-core workflows are intuitive, the design is consistent, and it is responsive and usable.
+Use READY FOR USER VIEW only if you tested the page in a browser, no critical or high issues
+remain, the hierarchy is clear, the core workflows are intuitive, the design is consistent, and
+it is responsive and usable.
 ```
 
 After each round:
 1. Fix every critical and high issue. Fix medium issues unless one conflicts with a product
    requirement, and note why you skipped it.
-2. Republish to the same path.
+2. Republish from the same path.
 3. Start a new reviewer.
 4. Stop when a reviewer's last line is `READY FOR USER VIEW`.
 
@@ -118,8 +139,9 @@ Ask the user something mid-loop only when a fix would remove or change a feature
 rule from step 1. Fix everything else and keep going.
 
 Never declare approval yourself. Stop after 5 rounds without approval and report the open issues
-and the last verdict to the user. If the reviewer cannot open the page or a tool fails, retry
-once. If it still fails, stop, say so plainly, and do not count that round as a pass.
+and the last verdict to the user. If a reviewer reports "BROWSER CHECK NOT RUN" or a tool fails,
+retry that round once with a new reviewer. If it happens again, stop, tell the user the loop
+cannot finish without browser access, and do not count that round as a pass.
 
 ## 5. Deliver
 

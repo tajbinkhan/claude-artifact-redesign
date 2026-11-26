@@ -56,6 +56,12 @@ The skill sets `disable-model-invocation: true`, so Claude runs it only when you
 Every round starts a new reviewer subagent, and a run can take up to 5 rounds. Delete that line
 from `SKILL.md` if you want Claude to start the skill on its own.
 
+The loop runs without asking you between rounds. Claude Code can still ask you to approve
+individual tool calls, such as publishing the artifact, depending on your permission settings.
+
+The reviewer needs a browser tool (Claude in Chrome or the desktop app's built-in browser) to
+approve the design. Without one, the skill stops after a retry and tells you why.
+
 ## What it does
 
 1. Reads the app's docs and code, and walks the running app when it can, to find the users, their
@@ -63,8 +69,8 @@ from `SKILL.md` if you want Claude to start the skill on its own.
 2. Designs against a fixed set of rules covering hierarchy, efficiency, consistency, WCAG AA
    accessibility, every UI state, and 375px to 1280px layouts.
 3. Builds a working Artifact, with a demo-state switcher for the empty, loading and error states.
-4. Starts a new `general-purpose` reviewer subagent each round. The reviewer uses the page in a
-   browser, rates 10 areas, ranks every issue by severity, and ends with `READY FOR USER VIEW` or
+4. Starts a new `general-purpose` reviewer subagent each round. The reviewer opens the local
+   HTML file in a browser, checks the previous round's issues, rates 10 areas, ranks every issue by severity, and ends with `READY FOR USER VIEW` or
    `NOT READY`. Claude fixes every critical and high issue and republishes.
 5. Stops on approval, or after 5 rounds with the open issues listed. Claude never approves its own
    work.

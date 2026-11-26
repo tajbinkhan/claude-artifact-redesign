@@ -5,12 +5,13 @@
   },
   "metadata": {
     "description": "Claude Code skill that redesigns an app's UI as an interactive Claude Artifact and loops a reviewer subagent until it approves.",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {
       "name": "claude-artifact-redesign",
       "description": "Redesign an app's UI as an interactive Claude Artifact, then run a fresh reviewer subagent each round until it returns READY FOR USER VIEW.",
+      "version": "1.1.0",
       "source": "./",
       "strict": false,
       "skills": ["./"],
