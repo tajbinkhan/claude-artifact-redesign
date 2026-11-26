@@ -57,6 +57,8 @@ template.
   the file.
 - Write the page as one local HTML file in the scratchpad directory, or in the working directory
   when there is no scratchpad. Keep its absolute path, because the reviewer opens this file.
+- Put `<meta charset="utf-8">` on the first line of the file. The artifact host adds a charset,
+  but a local server does not, and without it characters such as "·" or "৳" break in review.
 - Make it work. Navigation, tabs, filters, sorting, dropdowns, dialogs and forms change what is on
   screen. Remove any control that does nothing.
 - Build shared components so one fix applies everywhere.
@@ -71,7 +73,7 @@ not inherit your reasoning. Start a new agent every round so an earlier verdict 
 the next one.
 
 Give the reviewer:
-- the absolute path of the local HTML file, plus its `file:///` URL
+- the absolute path of the local HTML file, its folder, and its file name
 - the artifact URL, as a backup
 - the product summary from step 1 (users, top tasks, must-keep features)
 - the round number
@@ -88,9 +90,20 @@ You are a critical senior product designer and UX auditor. Review this interacti
 Do not approve it because it looks attractive. Approve it only when real users could finish
 their tasks without confusion.
 
-Open the local file URL in a browser. If it does not load, try the artifact URL. Then use the
-page. Click every control, run the main workflows, tab through with the keyboard, and check it at
-375px, 768px and 1280px. Read the source for contrast values, focus styles and labels.
+This is a review only. Do not edit, create or delete project files.
+
+Serve the file's folder on 127.0.0.1 with a static server, for example
+`python -m http.server 8765 --bind 127.0.0.1` run from that folder, and open
+http://127.0.0.1:8765/<file name> in a browser. Do not use a file:// URL, because the Claude in
+Chrome extension rewrites it into a broken address. If you cannot start a server, use the
+artifact URL. Stop the server when you finish.
+
+Then use the page. Click every control, run the main workflows, tab through with the keyboard,
+and check it at 375px, 768px and 1280px. Read the source for contrast values, focus styles and
+labels.
+
+Near the top of your report, state in one line which browser you used and which widths you
+actually checked.
 
 If no browser works, review the source only, start your report with "BROWSER CHECK NOT RUN",
 list the checks you could not run, and end with NOT READY.
@@ -129,6 +142,9 @@ After each round:
 3. Start a new reviewer.
 4. Stop when a reviewer's last line is `READY FOR USER VIEW`.
 
+An approval can still list medium or low issues. Do not fix them after the approving round,
+because those changes would go out unreviewed. List them in the delivery instead.
+
 The loop runs on its own. The user already approved it by starting the skill, so between rounds:
 - do not ask whether to keep fixing, re-review or republish
 - do not end the turn, and do not offer a "continue?" choice or button
@@ -151,3 +167,4 @@ Tell the user:
 - the key UX decisions and their trade-offs
 - the number of review rounds
 - the final reviewer verdict, quoted
+- the medium and low issues the approving reviewer still listed, one line each
