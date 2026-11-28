@@ -66,12 +66,15 @@ approve the design. Without one, the skill stops after a retry and tells you why
 
 1. Reads the app's docs and code, and walks the running app when it can, to find the users, their
    top tasks, current UX problems and the features that must stay.
-2. Designs against a fixed set of rules covering hierarchy, efficiency, consistency, WCAG AA
-   accessibility, every UI state, and 375px to 1280px layouts.
+2. Designs against [`references/ux-rules.md`](references/ux-rules.md): UX patterns chosen by
+   task (navigation, list and detail, tables, forms, destructive actions, empty states), UX laws
+   and response times, visual values (spacing, type, color, one primary action), WCAG 2.2 AA
+   checks, responsive and copy rules, and anti-patterns to reject. Each rule has an ID.
 3. Builds a working Artifact, with a demo-state switcher for the empty, loading and error states.
 4. Starts a new `general-purpose` reviewer subagent each round. The reviewer serves the local
-   HTML file on 127.0.0.1, uses it in a browser, checks the previous round's issues, rates 10
-   areas, ranks every issue by severity, and ends with `READY FOR USER VIEW` or `NOT READY`.
+   HTML file on 127.0.0.1, uses it in a browser, checks the previous round's issues, checks the
+   page against the rules file, rates 10 areas, ranks every issue by severity with the broken
+   rule's ID, and ends with `READY FOR USER VIEW` or `NOT READY`.
    Claude fixes every critical and high issue and republishes.
 5. Stops on approval, or after 5 rounds with the open issues listed. Claude never approves its own
    work. Medium and low issues still open at approval are listed in the final report.

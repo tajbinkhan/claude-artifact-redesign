@@ -39,6 +39,11 @@ Otherwise start step 1 without asking.
 Every element earns its place. Decide from the product's users and tasks, not from a dashboard
 template.
 
+Before designing, read `references/ux-rules.md` in this skill's folder (the folder this SKILL.md
+was loaded from). It lists the patterns, values, accessibility checks and anti-patterns the
+design must follow, each with an ID. The reviewer checks the page against the same file. The
+summary below does not replace it.
+
 - Clarity. Users can tell where they are, what matters, what they can do, and what to do next.
 - Hierarchy. Primary information and the main action stand out. Secondary content recedes.
 - Efficiency. The common tasks take the fewest clicks. Items that need attention surface first.
@@ -75,6 +80,7 @@ the next one.
 Give the reviewer:
 - the absolute path of the local HTML file, its folder, and its file name
 - the artifact URL, as a backup
+- the absolute path of `references/ux-rules.md` in this skill's folder
 - the product summary from step 1 (users, top tasks, must-keep features)
 - the round number
 - from round 2 on, the previous reviewer's issue list exactly as it wrote it, and any medium
@@ -91,6 +97,11 @@ Do not approve it because it looks attractive. Approve it only when real users c
 their tasks without confusion.
 
 This is a review only. Do not edit, create or delete project files.
+
+First read the rules file at the path given. Pattern rules (P) apply when the screen has that
+kind of content or task. Every other rule applies to every screen. Treat each broken rule as an
+issue and cite its ID. A broken accessibility rule (A) or anti-pattern (X) on a core workflow is
+at least high severity. Accept a broken rule only when the product summary gives a reason for it.
 
 Serve the file's folder on 127.0.0.1 with a static server, for example
 `python -m http.server 8765 --bind 127.0.0.1` run from that folder, and open
@@ -124,7 +135,8 @@ Rate each area as "pass" or "issues found":
 9. Visual quality
 10. Overall cognitive load
 
-List every issue as: severity (critical / high / medium / low), location, problem, recommended fix.
+List every issue as: severity (critical / high / medium / low), rule ID if one applies, location,
+problem, recommended fix.
 
 End with exactly one of these lines:
 READY FOR USER VIEW
@@ -164,7 +176,8 @@ cannot finish without browser access, and do not count that round as a pass.
 Tell the user:
 - the artifact link
 - the main design changes, each with the problem it fixes
-- the key UX decisions and their trade-offs
+- the key UX decisions and their trade-offs, including any rule from `references/ux-rules.md`
+  you broke on purpose and why
 - the number of review rounds
 - the final reviewer verdict, quoted
 - the medium and low issues the approving reviewer still listed, one line each

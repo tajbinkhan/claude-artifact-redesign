@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.3.0 (2026-11-28)
+
+- Added `references/ux-rules.md` with UX patterns by task, UX laws and response times, visual
+  values, WCAG 2.2 AA checks, responsive and copy rules, and anti-patterns. Each rule has an ID.
+- The builder reads the rules before designing, and the reviewer checks the page against them
+  and cites the broken rule's ID in each issue.
+- A broken accessibility rule or anti-pattern on a core workflow counts as at least high
+  severity.
+- The delivery lists any rule broken on purpose, with the reason.
+
 ## 1.2.0 (2026-11-26)
 
 Fixes from the first end-to-end test run, which approved a redesign in 2 rounds.
